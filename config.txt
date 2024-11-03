@@ -1,0 +1,7 @@
+hotkey=0xA4
+delay=100
+second_key=0x4B
+always_enable=0
+
+; enter the key number from:
+; https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes

@@ -1,14 +1,33 @@
 #include "triggerbot.h"
+#include "common.h"
 
 int main(int argc, char** argv)
 {
-	TriggerBot psi;
+	MoveWindow(GetConsoleWindow(), 500, 500, 500, 400, true);
+	SetWindowTextA(GetConsoleWindow(), "triggerbot");
 
+	ConfigFileData* cfg = ReadConfigFile();
+
+	register TriggerBot psi;
+
+	std::cout << "\nrunning...\n";
 	while (1) {
-		if (GetAsyncKeyState(VK_LMENU)) {
-			if (psi.check_screen())
-				psi.click('K');
+		if (cfg->_always_enable) {
+			if (psi.check_screen()) {
+				psi.click(cfg->_second_key);
+				sleep(cfg->_delay);
+			}
 		}
-		Sleep(1);
+		else {
+			if (GetAsyncKeyState(cfg->_hotkey)) {
+				if (psi.check_screen()) {
+					psi.click(cfg->_second_key);
+					sleep(cfg->_delay);
+				}
+			}
+		}
+		sleep(1);
 	}
+
+	system("pause");
 }
