@@ -1,17 +1,14 @@
-#include "main.h"
+#include "triggerbot.h"
 
 int main(int argc, char** argv)
 {
-	SCO* psco = new SCO;
-	if (!psco) {
-		std::cout << "failed to init SCO\n";
-		return 0;
-	}
-	std::cout << "SCO initialized\n\n";
+	TriggerBot psi;
 
-	psco->px_init();
-	if (psco->_pixels) {
-		std::cout << "failed to init px table\n";
-		return 0;
+	while (1) {
+		if (GetAsyncKeyState(VK_LMENU)) {
+			if (psi.check_screen())
+				psi.click('K');
+		}
+		Sleep(1);
 	}
 }
