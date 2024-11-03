@@ -4,6 +4,7 @@ valorant triggerbot
 # how to use
 in config file change value from 0x for yourself 
 (take values from https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes)
+
 set the color of your opponents outlines to purple. If you want a different one, you'll have to rebuild the project (Im too lazy to make color parameters in the config)
 ----------------------------------------------------------------------------------------------------------
 *  hotkey - the key at which the trigger will be active (by default it is left alt)
