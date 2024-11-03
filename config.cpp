@@ -32,6 +32,6 @@ ConfigFileData* ReadConfigFile()
 		<< "\n\talways_enable:\t" << cfg->_always_enable
 		<< "\n\tzone:\t\t"	  << cfg->_dots_distance;
 #endif
-
+	file.close();
 	return cfg;
 }
