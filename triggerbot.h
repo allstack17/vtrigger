@@ -5,9 +5,6 @@
 #include <vector>
 #include <windows.h>
 
-/* triggerbot zone reaction */
-#define DOTS_DISTANCE	5
-
 /* for TriggerBot::_dots */
 #define LEFTUP_ANGLE	0
 #define RIGHTDOWN_ANGE	1
