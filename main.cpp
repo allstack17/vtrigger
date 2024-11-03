@@ -8,7 +8,7 @@ int main(int argc, char** argv)
 
 	ConfigFileData* cfg = ReadConfigFile();
 
-	register TriggerBot psi;
+	register TriggerBot psi(cfg->_dots_distance);
 
 	std::cout << "\nrunning...\n";
 	while (1) {
@@ -28,6 +28,4 @@ int main(int argc, char** argv)
 		}
 		sleep(1);
 	}
-
-	system("pause");
 }
