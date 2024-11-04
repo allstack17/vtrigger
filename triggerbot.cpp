@@ -34,8 +34,8 @@ void TriggerBot::click(int button)
 bool TriggerBot::check_screen()
 {
 	static BITMAPINFO bmp_info{};
-	bmp_info.bmiHeader.biSize 		 = sizeof(BITMAPINFO);
-	bmp_info.bmiHeader.biWidth 		 = DIFF();
+	bmp_info.bmiHeader.biSize 	 = sizeof(BITMAPINFO);
+	bmp_info.bmiHeader.biWidth 	 = DIFF();
 	bmp_info.bmiHeader.biHeight 	 = DIFF();
 	bmp_info.bmiHeader.biPlanes 	 = 1;
 	bmp_info.bmiHeader.biBitCount 	 = 32;
