@@ -8,7 +8,6 @@ in config file change value from 0x for yourself
 set the color of your opponents outlines to purple. If you want a different one, you'll have to rebuild the project (Im too lazy to make color parameters in the config)
 
 download .exe file - https://disk.yandex.ru/d/tgt6ILA35nJoGw
-
 ----------------------------------------------------------------------------------------------------------
 *  hotkey - the key at which the trigger will be active (by default it is left alt)
 *  delay - delay between shots
