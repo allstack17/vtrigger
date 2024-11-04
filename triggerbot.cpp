@@ -3,8 +3,8 @@
 TriggerBot::TriggerBot(short zone) :
 	_x(GetSystemMetrics(SM_CXSCREEN)), _y(GetSystemMetrics(SM_CYSCREEN)), _dots_distance(zone)
 {
-	_dots[LEFTUP_ANGLE]   = { (short)(_x / 2 - DOTS_DISTANCE), (short)(_y / 2 - DOTS_DISTANCE) };
-	_dots[RIGHTDOWN_ANGE] = { (short)(_x / 2 + DOTS_DISTANCE), (short)(_y / 2 + DOTS_DISTANCE) };
+	_dots[LEFTUP_ANGLE]   = { (short)(_x / 2 - DIFF()), (short)(_y / 2 - DIFF()) };
+	_dots[RIGHTDOWN_ANGE] = { (short)(_x / 2 + DIFF()), (short)(_y / 2 + DIFF()) };
 
 	_hdc_info._hdc	    = GetDC(nullptr);
 	_hdc_info._buff_hdc = CreateCompatibleDC(_hdc_info._hdc);
@@ -34,8 +34,8 @@ void TriggerBot::click(int button)
 bool TriggerBot::check_screen()
 {
 	static BITMAPINFO bmp_info{};
-	bmp_info.bmiHeader.biSize 	 = sizeof(BITMAPINFO);
-	bmp_info.bmiHeader.biWidth 	 = DIFF();
+	bmp_info.bmiHeader.biSize 		 = sizeof(BITMAPINFO);
+	bmp_info.bmiHeader.biWidth 		 = DIFF();
 	bmp_info.bmiHeader.biHeight 	 = DIFF();
 	bmp_info.bmiHeader.biPlanes 	 = 1;
 	bmp_info.bmiHeader.biBitCount 	 = 32;
@@ -61,15 +61,17 @@ bool TriggerBot::check_screen()
 		DIB_RGB_COLORS
 	);
 
+	/* purple */
+	static uint8_t r = 250, g = 100, b = 250;
+
 	/*
 	 *	change the reaction to a certain color
-	 *	current: purple
 	 */
 	for (int i = 0; i < vec.size(); ++i) {
-		int tmp = RGB((int)GetRValue(vec[i]), (int)GetGValue(vec[i]), (int)GetBValue(vec[i]));
-		if (tmp <= 0xffa1ff && tmp >= 0xff38ff)
+		if (( (GetRValue(vec[i]) - TOLERANCE < r) && (r < GetRValue(vec[i]) + TOLERANCE )) && 
+			( (GetGValue(vec[i]) - TOLERANCE < g) && (g < GetRValue(vec[i]) + TOLERANCE )) &&
+			( (GetBValue(vec[i]) - TOLERANCE < b) && (b < GetRValue(vec[i]) + TOLERANCE )) )
 			return true;
 	}
-
 	return false;
 }
