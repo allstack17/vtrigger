@@ -5,7 +5,7 @@
 #include <vector>
 #include <windows.h>
 
-#define TOLERANCE 20
+#define TOLERANCE 	20
 
 /* for TriggerBot::_dots */
 #define LEFTUP_ANGLE	0
