@@ -3,25 +3,29 @@
 
 int main(int argc, char** argv)
 {
-	MoveWindow(GetConsoleWindow(), 500, 500, 500, 400, true);
-	SetWindowTextA(GetConsoleWindow(), "triggerbot");
+	MoveWindow(
+		GetConsoleWindow(), 
+		500, 500, 500, 400, 
+		true
+	);
+	SetWindowTextA(GetConsoleWindow(), "TriggerBot");
 
 	ConfigFileData* cfg = ReadConfigFile();
 
-	register TriggerBot psi(cfg->_dots_distance);
+	TriggerBot bot(cfg);
 
-	std::cout << "\nrunning...\n";
+	std::cout << "\n\nrunning...\n";
 	while (1) {
 		if (cfg->_always_enable) {
-			if (psi.check_screen()) {
-				psi.click(cfg->_second_key);
+			if (bot.check_screen()) {
+				bot.click(cfg->_second_key);
 				sleep(cfg->_delay);
 			}
 		}
 		else {
 			if (GetAsyncKeyState(cfg->_hotkey)) {
-				if (psi.check_screen()) {
-					psi.click(cfg->_second_key);
+				if (bot.check_screen()) {
+					bot.click(cfg->_second_key);
 					sleep(cfg->_delay);
 				}
 			}

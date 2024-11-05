@@ -1,8 +1,10 @@
 #include "triggerbot.h"
 
-TriggerBot::TriggerBot(short zone) :
-	_x(GetSystemMetrics(SM_CXSCREEN)), _y(GetSystemMetrics(SM_CYSCREEN)), _dots_distance(zone)
+TriggerBot::TriggerBot(const ConfigFileData* pcfg) :
+	_x(GetSystemMetrics(SM_CXSCREEN)), _y(GetSystemMetrics(SM_CYSCREEN))
 {
+	_pcfg = const_cast<ConfigFileData*>(pcfg);
+
 	_dots[LEFTUP_ANGLE]   = { (short)(_x / 2 - DIFF()), (short)(_y / 2 - DIFF()) };
 	_dots[RIGHTDOWN_ANGE] = { (short)(_x / 2 + DIFF()), (short)(_y / 2 + DIFF()) };
 
@@ -22,7 +24,7 @@ TriggerBot::~TriggerBot()
 void TriggerBot::click(int button)
 {
 	INPUT input{};
-	input.type 	 = INPUT_KEYBOARD;
+	input.type 		 = INPUT_KEYBOARD;
 	input.ki.wVk 	 = button;
 	input.ki.dwFlags = 0;
 	SendInput(1, &input, sizeof(INPUT));
@@ -31,11 +33,13 @@ void TriggerBot::click(int button)
 	SendInput(1, &input, sizeof(INPUT));
 }
 
+#define GET_COLOR(rgb, s) ((Get##rgb##Value(vec[i])) s _pcfg->_tolerance)
+
 bool TriggerBot::check_screen()
 {
 	static BITMAPINFO bmp_info{};
-	bmp_info.bmiHeader.biSize 	 = sizeof(BITMAPINFO);
-	bmp_info.bmiHeader.biWidth 	 = DIFF();
+	bmp_info.bmiHeader.biSize 		 = sizeof(BITMAPINFO);
+	bmp_info.bmiHeader.biWidth 		 = DIFF();
 	bmp_info.bmiHeader.biHeight 	 = DIFF();
 	bmp_info.bmiHeader.biPlanes 	 = 1;
 	bmp_info.bmiHeader.biBitCount 	 = 32;
@@ -64,14 +68,13 @@ bool TriggerBot::check_screen()
 	/* purple */
 	static uint8_t r = 250, g = 100, b = 250;
 
-	/*
-	 *	change the reaction to a certain color
-	 */
 	for (int i = 0; i < vec.size(); ++i) {
-		if (( (GetRValue(vec[i]) - TOLERANCE < r) && (r < GetRValue(vec[i]) + TOLERANCE )) && 
-			( (GetGValue(vec[i]) - TOLERANCE < g) && (g < GetRValue(vec[i]) + TOLERANCE )) &&
-			( (GetBValue(vec[i]) - TOLERANCE < b) && (b < GetRValue(vec[i]) + TOLERANCE )) )
-			return true;
+		if (
+			((GET_COLOR(R, -) < r) && (r < GET_COLOR(R, +))) &&
+			((GET_COLOR(G, -) < g) && (g < GET_COLOR(G, +))) &&
+			((GET_COLOR(B, -) < b) && (b < GET_COLOR(B, +)))
+		) return true;
 	}
+
 	return false;
 }
