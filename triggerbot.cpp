@@ -24,7 +24,7 @@ TriggerBot::~TriggerBot()
 void TriggerBot::click(int button)
 {
 	INPUT input{};
-	input.type 		 = INPUT_KEYBOARD;
+	input.type 	 = INPUT_KEYBOARD;
 	input.ki.wVk 	 = button;
 	input.ki.dwFlags = 0;
 	SendInput(1, &input, sizeof(INPUT));
@@ -38,8 +38,8 @@ void TriggerBot::click(int button)
 bool TriggerBot::check_screen()
 {
 	static BITMAPINFO bmp_info{};
-	bmp_info.bmiHeader.biSize 		 = sizeof(BITMAPINFO);
-	bmp_info.bmiHeader.biWidth 		 = DIFF();
+	bmp_info.bmiHeader.biSize 	 = sizeof(BITMAPINFO);
+	bmp_info.bmiHeader.biWidth 	 = DIFF();
 	bmp_info.bmiHeader.biHeight 	 = DIFF();
 	bmp_info.bmiHeader.biPlanes 	 = 1;
 	bmp_info.bmiHeader.biBitCount 	 = 32;
