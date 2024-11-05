@@ -20,7 +20,7 @@ struct TriggerBot
 
 private:
 	struct HdcInfo {
-		HDC		_hdc, _buff_hdc;
+		HDC	_hdc, _buff_hdc;
 		HBITMAP _hmap;
 	} _hdc_info{};
 
@@ -38,7 +38,7 @@ public:
 struct ConfigFileData
 {
 	uint8_t _hotkey, _second_key;
-	int		_delay;
+	int	_delay;
 	bool	_always_enable;
 	short	_dots_distance, _tolerance;
 
