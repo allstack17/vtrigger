@@ -5,17 +5,17 @@
 #include <vector>
 #include <windows.h>
 
-#define LEFTUP_ANGLE	0
-#define RIGHTDOWN_ANGE	1
-
-#define DIFF()(_pcfg->_dots_distance * 2)
+#define __SIMD
+#ifdef  __SIMD
+#include <x86intrin.h>
+#endif
 
 struct ConfigFileData;
 
 struct TriggerBot
 {
 	short _x, _y;
-	COORD _dots[2];
+	COORD _angle;
 	ConfigFileData* _pcfg;
 
 private:
@@ -40,14 +40,16 @@ struct ConfigFileData
 	uint8_t _hotkey, _second_key;
 	int	_delay;
 	bool	_always_enable;
-	short	_dots_distance, _tolerance;
+	short	_tolerance;
+	short	_zone_x, _zone_y;
 
 public:
-	ConfigFileData() :
-		_hotkey(0), _second_key(0), _delay(0), 
-		_always_enable(false), _dots_distance(0), _tolerance(0) {}
+	ConfigFileData() {
+		_hotkey = _second_key = _delay = _always_enable
+			= _tolerance = _zone_x = _zone_y = 0;
+	}
 };
 
-ConfigFileData* ReadConfigFile();
+ConfigFileData* ReadConfigFile() noexcept;
 
 #endif	/* _TRIGGER_BOT_H_ */

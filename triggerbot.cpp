@@ -1,16 +1,24 @@
 #include "triggerbot.h"
 
+#define GET_COLOR(i, rgb, s) ((Get##rgb##Value(i)) s _pcfg->_tolerance)
+
+#define RGB_COMPARE(i)\
+	((GET_COLOR(i, R, -) < r) && (r < GET_COLOR(i, R, +)) &&  \
+	 (GET_COLOR(i, G, -) < g) && (g < GET_COLOR(i, G, +)) &&  \
+	 (GET_COLOR(i, B, -) < b) && (b < GET_COLOR(i, B, +)))	  \
+
 TriggerBot::TriggerBot(const ConfigFileData* pcfg) :
 	_x(GetSystemMetrics(SM_CXSCREEN)), _y(GetSystemMetrics(SM_CYSCREEN))
 {
 	_pcfg = const_cast<ConfigFileData*>(pcfg);
 
-	_dots[LEFTUP_ANGLE]   = { (short)(_x / 2 - DIFF()), (short)(_y / 2 - DIFF()) };
-	_dots[RIGHTDOWN_ANGE] = { (short)(_x / 2 + DIFF()), (short)(_y / 2 + DIFF()) };
+	_angle = { (short)(_x / 2 - _pcfg->_zone_x / 2), 
+		   (short)(_y / 2 - _pcfg->_zone_y / 2) };
 
 	_hdc_info._hdc	    = GetDC(nullptr);
 	_hdc_info._buff_hdc = CreateCompatibleDC(_hdc_info._hdc);
-	_hdc_info._hmap	    = CreateCompatibleBitmap(_hdc_info._hdc, DIFF(), DIFF());
+	_hdc_info._hmap	    = CreateCompatibleBitmap(_hdc_info._hdc, _pcfg->_zone_x, _pcfg->_zone_y);
+
 	SelectObject(_hdc_info._buff_hdc, _hdc_info._hmap);
 }
 
@@ -33,47 +41,62 @@ void TriggerBot::click(int button)
 	SendInput(1, &input, sizeof(INPUT));
 }
 
-#define GET_COLOR(rgb, s) ((Get##rgb##Value(vec[i])) s _pcfg->_tolerance)
-
 bool TriggerBot::check_screen()
 {
-	static BITMAPINFO bmp_info{};
-	bmp_info.bmiHeader.biSize 	 = sizeof(BITMAPINFO);
-	bmp_info.bmiHeader.biWidth 	 = DIFF();
-	bmp_info.bmiHeader.biHeight 	 = DIFF();
-	bmp_info.bmiHeader.biPlanes 	 = 1;
-	bmp_info.bmiHeader.biBitCount 	 = 32;
-	bmp_info.bmiHeader.biCompression = BI_RGB;
+	static BITMAPINFO bmp_info{}; {
+		bmp_info.bmiHeader.biSize 	 = sizeof(BITMAPINFO);
+		bmp_info.bmiHeader.biWidth 	 = _pcfg->_zone_x;
+		bmp_info.bmiHeader.biHeight 	 = -_pcfg->_zone_y;
+		bmp_info.bmiHeader.biPlanes 	 = 1;
+		bmp_info.bmiHeader.biBitCount 	 = 32;
+		bmp_info.bmiHeader.biCompression = BI_RGB;
+	}
+
+	static std::vector<COLORREF> vec(_pcfg->_zone_x * _pcfg->_zone_y, 0);
+
+	static const uint8_t r = 250, g = 100, b = 250;		/* purple */
 
 	BitBlt(
 		_hdc_info._buff_hdc,
 		0, 0,
-		DIFF(), DIFF(),
+		_pcfg->_zone_x, _pcfg->_zone_y,
 		_hdc_info._hdc,
-		_dots[LEFTUP_ANGLE].X, _dots[LEFTUP_ANGLE].Y,
+		_angle.X, _angle.Y,
 		SRCCOPY
 	);
-
-	static std::vector<COLORREF> vec(DIFF() * DIFF(), 0);
 
 	GetDIBits(
 		_hdc_info._buff_hdc,
 		_hdc_info._hmap,
-		0, DIFF(),
+		0, _pcfg->_zone_y,
 		vec.data(),
 		&bmp_info,
 		DIB_RGB_COLORS
 	);
+	
+/* SIMD just for fun. 
+ * difference is +-1 ms cuz scan array is too small
+ */
+#ifdef __SIMD
 
-	/* purple */
-	static uint8_t r = 250, g = 100, b = 250;
+	static __m128i reg;
+	static int tmp[4]{};
 
-	for (int i = 0; i < vec.size(); ++i) {
-		if (
-			((GET_COLOR(R, -) < r) && (r < GET_COLOR(R, +))) &&
-			((GET_COLOR(G, -) < g) && (g < GET_COLOR(G, +))) &&
-			((GET_COLOR(B, -) < b) && (b < GET_COLOR(B, +)))
+	for (int i = 0; i < vec.size(); i += 4) {
+		reg = _mm_load_si128((__m128i*)(vec.data() + i));
+		_mm_storeu_si128((__m128i*)tmp, reg);
+
+		if (RGB_COMPARE(tmp[0]) || RGB_COMPARE(tmp[1]) ||
+		    RGB_COMPARE(tmp[2]) || RGB_COMPARE(tmp[3])
 		) return true;
+
+#else
+
+	for (const auto& i : vec) {
+		if (RGB_COMPARE(i))
+			return true;
+
+#endif
 	}
 
 	return false;
