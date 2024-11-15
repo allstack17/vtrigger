@@ -2,12 +2,9 @@
 valorant triggerbot
 
 built with LLVM clang && uses https://github.com/nlohmann/json.
-if you don't want to use SIMD or it doesn't work, rebuild the project.
 
 tested on: ryzen 7 7700 4.5GHz 32gb 4800MHz
-average reaction time: 
-* 3-8 ms with default method
-* 1-6 ms with SIMD
+average reaction time: 3-8 ms
 
 # how to use
 in config file change value from 0x for yourself 
