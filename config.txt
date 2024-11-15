@@ -1,9 +1,0 @@
-hotkey=0xA4
-delay=150
-second_key=0x4B
-always_enable=0
-zone=5
-tolerance=30
-
-; enter the key number from:
-; https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
