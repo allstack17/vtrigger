@@ -22,4 +22,4 @@ download .exe file - https://disk.yandex.ru/d/tgt6ILA35nJoGw
 *  second_key - in the game set the 2nd key for shooting on the keyboard (by default it is K).
 *  always enable - the hotkey will be ignored and the trigger will work all the time
 *  zone - trigger reaction zone (x, y)
-*  tolerance - color tolerance (trigger sensitivity setting. default is 30)
+*  tolerance - color tolerance (trigger sensitivity setting. default is 70)
