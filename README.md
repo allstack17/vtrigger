@@ -3,9 +3,6 @@ valorant triggerbot
 
 built with LLVM clang && uses https://github.com/nlohmann/json
 
-tested on: ryzen 7 7700 4.5GHz 32gb 4800MHz
-average reaction time: 1-6 ms
-
 # how to use
 in config file change value from 0x for yourself 
 (take values from https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes)
