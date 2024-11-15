@@ -1,6 +1,14 @@
 # vtrigger
 valorant triggerbot
 
+built with LLVM clang && uses https://github.com/nlohmann/json.
+if you don't want to use SIMD or it doesn't work, rebuild the project.
+
+tested on: ryzen 7 7700 4.5GHz 32gb 4800MHz
+average reaction time: 
+* 4-6 ms with default method
+* 1-5 ms with SIMD
+
 # how to use
 in config file change value from 0x for yourself 
 (take values from https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes)
@@ -13,5 +21,5 @@ download .exe file - https://disk.yandex.ru/d/tgt6ILA35nJoGw
 *  delay - delay between shots
 *  second_key - in the game set the 2nd key for shooting on the keyboard (by default it is K).
 *  always enable - the hotkey will be ignored and the trigger will work all the time
-*  zone - trigger reaction zone (if zone=5 the trigger will read 5x5 area in the center of the screen)
+*  zone - trigger reaction zone (x, y)
 *  tolerance - color tolerance (trigger sensitivity setting. default is 30)
