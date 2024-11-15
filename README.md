@@ -1,7 +1,7 @@
 # vtrigger
 valorant triggerbot
 
-built with LLVM clang && uses https://github.com/nlohmann/json.
+built with LLVM clang && uses https://github.com/nlohmann/json
 
 tested on: ryzen 7 7700 4.5GHz 32gb 4800MHz
 average reaction time: 1-6 ms
