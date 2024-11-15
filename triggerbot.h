@@ -5,11 +5,6 @@
 #include <vector>
 #include <windows.h>
 
-#define __SIMD
-#ifdef  __SIMD
-#include <x86intrin.h>
-#endif
-
 struct ConfigFileData;
 
 struct TriggerBot

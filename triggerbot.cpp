@@ -74,29 +74,9 @@ bool TriggerBot::check_screen()
 		DIB_RGB_COLORS
 	);
 	
-/* SIMD just for fun. 
- * difference is +-1 ms cuz scan array is too small
- */
-#ifdef __SIMD
-
-	static __m128i reg;
-	static int tmp[4]{};
-
-	for (int i = 0; i < vec.size(); i += 4) {
-		reg = _mm_load_si128((__m128i*)(vec.data() + i));
-		_mm_storeu_si128((__m128i*)tmp, reg);
-
-		if (RGB_COMPARE(tmp[0]) || RGB_COMPARE(tmp[1]) ||
-		    RGB_COMPARE(tmp[2]) || RGB_COMPARE(tmp[3])
-		) return true;
-
-#else
-
 	for (const auto& i : vec) {
 		if (RGB_COMPARE(i))
 			return true;
-
-#endif
 	}
 
 	return false;

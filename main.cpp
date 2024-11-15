@@ -13,14 +13,7 @@ int main(int argc, char** argv)
 	ConfigFileData* cfg = ReadConfigFile();
 	TriggerBot bot(cfg);
 
-#ifdef __SIMD
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 3);
-	std::cout << "\nused SIMD: ";
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 7);
-	std::cout << "running...\n";
-#else
 	std::cout << "\nrunning...\n";
-#endif
 
 	while (1) {
 		if (cfg->_always_enable) {
