@@ -1,9 +1,0 @@
-{
-  "hotkey": "0xA4",
-  "second_key": "0x4B",
-  "delay": 40,
-  "always_enable": false,
-  "zone_x": 5,
-  "zone_y": 6,
-  "tolerance": 70
-}
