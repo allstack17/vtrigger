@@ -146,7 +146,7 @@ void Render(GLFWwindow* pwnd, ConfigFileData& cfg) {
 
 				/* exit button */
 				ImGui::PushStyleColor(ImGuiCol_Button, { 0.5f, 0.5f, 0.8f, 0.5f });
-				if (ImGui::Button("EXIT", { 50, 30 }))
+				if (ImGui::Button("EXIT", { 100, 30 }))
 					glfwSetWindowShouldClose(pwnd, true);
 				ImGui::PopStyleColor();
 
@@ -155,7 +155,7 @@ void Render(GLFWwindow* pwnd, ConfigFileData& cfg) {
 				ImGui::PushStyleColor(ImGuiCol_Button, TRIGGER_MAIN_LOOP ?
 					ImVec4(1.0f, 0.2f, 0.2f, 0.5f) : ImVec4{ 0.2f, 0.8f, 0.2f, 0.5f }
 				);
-				if (ImGui::Button(TRIGGER_MAIN_LOOP ? "STOP" : "START", { 210, 30 }))
+				if (ImGui::Button(TRIGGER_MAIN_LOOP ? "STOP" : "START", { 220, 30 }))
 					TRIGGER_MAIN_LOOP = TRIGGER_MAIN_LOOP ? false : true;
 				ImGui::PopStyleColor();
 			}
