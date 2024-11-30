@@ -96,7 +96,7 @@ bool TriggerBot::check_screen() {
 
 void TriggerThread(ConfigFileData& cfg) {
 	/* high prio for trigger thread */
-	SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_HIGHEST) << '\t' << GetLastError();
+	SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_HIGHEST);
 
 	TriggerBot bot(cfg);
 
