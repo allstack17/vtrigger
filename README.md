@@ -1,10 +1,12 @@
 # vtrigger
 valorant triggerbot
 
-built with LLVM clang && uses https://github.com/nlohmann/json
+built with LLVM clang && using:
+* https://github.com/nlohmann/json
+* https://github.com/ocornut/imgui
 
 # how to use
-in config file change value from 0x for yourself 
+in config file change values for yourself or just use GUI (convert from hex to dec)
 (take values from https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes)
 
 set the color of your opponents outlines to purple. If you want a different one, you'll have to rebuild the project (Im too lazy to make color parameters in the config)
