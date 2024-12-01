@@ -35,13 +35,15 @@ TriggerBot::TriggerBot(ConfigFileData& pcfg) :
 	SelectObject(_hdc_info._buff_hdc, _hdc_info._hmap);
 }
 
-TriggerBot::~TriggerBot() {
+TriggerBot::~TriggerBot() 
+{
 	DeleteObject(_hdc_info._hmap);
 	DeleteDC(_hdc_info._buff_hdc);
 	ReleaseDC(nullptr, _hdc_info._hdc);
 }
 
-void TriggerBot::click(int button) {
+void TriggerBot::click(int button) 
+{
 	INPUT input{};
 	input.type 		 = INPUT_KEYBOARD;
 	input.ki.wVk 	 = button;
@@ -52,7 +54,8 @@ void TriggerBot::click(int button) {
 	SendInput(1, &input, sizeof(INPUT));
 }
 
-bool TriggerBot::check_screen() {
+bool TriggerBot::check_screen() 
+{
 	static BITMAPINFO bmp_info = {
 		.bmiColors				 = {},
 		.bmiHeader.biWidth		 = 0,
@@ -94,7 +97,8 @@ bool TriggerBot::check_screen() {
 	return false;
 }
 
-void TriggerThread(ConfigFileData& cfg) {
+void TriggerThread(ConfigFileData& cfg) 
+{
 	/* high prio for trigger thread */
 	SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_HIGHEST);
 

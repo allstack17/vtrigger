@@ -8,7 +8,8 @@
 
 struct ConfigFileData;
 
-class TriggerBot {
+class TriggerBot 
+{
 	short _x, _y;
 	ConfigFileData* _pcfg;
 
@@ -29,7 +30,8 @@ public:
 	bool check_screen();
 };
 
-struct ConfigFileData {
+struct ConfigFileData 
+{
 	uint8_t _hotkey, _second_key, _zone_x, _zone_y, _tolerance;
 	int _delay;
 

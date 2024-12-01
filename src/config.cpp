@@ -23,7 +23,8 @@ namespace global {
 	nlohmann::json json;
 }
 
-ConfigFileData* ReadConfigFile() noexcept {
+ConfigFileData* ReadConfigFile() noexcept 
+{
 	std::ifstream file("config.json");
 	if (!file)
 		__exit_msg("no config file");
@@ -60,7 +61,8 @@ ConfigFileData* ReadConfigFile() noexcept {
 	return cfg;
 }
 
-void SetConfigFileData(const std::string& field, const int& data) noexcept {
+void SetConfigFileData(const std::string& field, const int& data) noexcept 
+{
 	std::ofstream ofile("config.json", std::ios::trunc);
 	if (!ofile)
 		__exit_msg("no config file");

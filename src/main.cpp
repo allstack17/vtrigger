@@ -21,7 +21,8 @@ extern bool TRIGGER_MAIN_LOOP;
 
 static bool EarlyInit();
 
-int main(int argc, char** argv) {
+int main(int argc, char** argv) 
+{
 	if (!EarlyInit())
 		__exit_msg("restart with admin rights");
 
@@ -47,7 +48,8 @@ int main(int argc, char** argv) {
 	return 0;
 }
 
-bool EarlyInit() {
+bool EarlyInit() 
+{
 	/* pos/size */
 	MoveWindow(
 		GetConsoleWindow(),
