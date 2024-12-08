@@ -25,7 +25,7 @@ volatile bool TRIGGER_MAIN_LOOP = false;
 TriggerBot::TriggerBot(ConfigFileData& pcfg) :
 	_x(GetSystemMetrics(SM_CXSCREEN)), _y(GetSystemMetrics(SM_CYSCREEN))
 {
-	_pcfg					  = &pcfg;
+	_pcfg		    = &pcfg;
 	_hdc_info._hdc	    = GetDC(nullptr);
 	_hdc_info._buff_hdc = CreateCompatibleDC(_hdc_info._hdc);
 	_hdc_info._hmap	    = CreateCompatibleBitmap(_hdc_info._hdc, _pcfg->_zone_x, _pcfg->_zone_y);
