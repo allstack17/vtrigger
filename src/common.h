@@ -31,11 +31,11 @@
 #define __sleep(ms)\
 	std::this_thread::sleep_for(std::chrono::milliseconds(ms))
 
-#define __exit_msg(...) {																	 \
-	__set_color_exp(SC_COLOR_RED,															 \
-		std::cerr << "msg:\t" << __VA_ARGS__ << "\nerror:\t" << GetLastError() << "\n\n");	 \
-	system("pause");																		 \
-	exit(0);																				 \
+#define __exit_msg(...) {\
+	__set_color_exp(SC_COLOR_RED,\
+		std::cerr << "msg:\t" << __VA_ARGS__ << "\nerror:\t" << GetLastError() << "\n\n");\
+	system("pause");\
+	exit(0);\
 }
 
 #endif	/* _COMMON_H_ */

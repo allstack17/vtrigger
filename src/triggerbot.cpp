@@ -17,17 +17,15 @@
 	 (GET_COLOR(i, B, -) < global::b) && (global::b < GET_COLOR(i, B, +)))	  \
 
 namespace global {
-	/* purple */
 	const uint8_t r = 250, g = 100, b = 250;
 }
 
-/* global flag for trigger main loop */
-bool TRIGGER_MAIN_LOOP = false;
+volatile bool TRIGGER_MAIN_LOOP = false;
 
 TriggerBot::TriggerBot(ConfigFileData& pcfg) :
 	_x(GetSystemMetrics(SM_CXSCREEN)), _y(GetSystemMetrics(SM_CYSCREEN))
 {
-	_pcfg				= &pcfg;
+	_pcfg					  = &pcfg;
 	_hdc_info._hdc	    = GetDC(nullptr);
 	_hdc_info._buff_hdc = CreateCompatibleDC(_hdc_info._hdc);
 	_hdc_info._hmap	    = CreateCompatibleBitmap(_hdc_info._hdc, _pcfg->_zone_x, _pcfg->_zone_y);
@@ -44,8 +42,8 @@ TriggerBot::~TriggerBot()
 
 void TriggerBot::click(int button) 
 {
-	INPUT input{};
-	input.type 		 = INPUT_KEYBOARD;
+	INPUT input	 = {};
+	input.type 	 = INPUT_KEYBOARD;
 	input.ki.wVk 	 = button;
 	input.ki.dwFlags = 0;
 	SendInput(1, &input, sizeof(INPUT));
@@ -56,14 +54,14 @@ void TriggerBot::click(int button)
 
 bool TriggerBot::check_screen() 
 {
-	static BITMAPINFO bmp_info = {
-		.bmiColors				 = {},
-		.bmiHeader.biWidth		 = 0,
-		.bmiHeader.biHeight		 = 0,
-		.bmiHeader.biPlanes		 = 1,
+	static BITMAPINFO bmp_info  = {
+		.bmiColors		 = {},
+		.bmiHeader.biWidth	 = 0,
+		.bmiHeader.biHeight	 = 0,
+		.bmiHeader.biPlanes	 = 1,
 		.bmiHeader.biBitCount	 = 32,
 		.bmiHeader.biCompression = BI_RGB,
-		.bmiHeader.biSize		 = sizeof(BITMAPINFO),
+		.bmiHeader.biSize	 = sizeof(BITMAPINFO),
 	};
 	bmp_info.bmiHeader.biWidth  = _pcfg->_zone_x;
 	bmp_info.bmiHeader.biHeight = _pcfg->_zone_y;
@@ -72,7 +70,7 @@ bool TriggerBot::check_screen()
 	size_t old_size = vec.size();
 
 	if (old_size != (_pcfg->_zone_x * _pcfg->_zone_y)) {
-		old_size  = (_pcfg->_zone_x * _pcfg->_zone_y);
+		old_size = (_pcfg->_zone_x * _pcfg->_zone_y);
 		vec.resize(old_size);
 	}
 
@@ -99,8 +97,8 @@ bool TriggerBot::check_screen()
 
 void TriggerThread(ConfigFileData& cfg) 
 {
-	/* high prio for trigger thread */
-	SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_HIGHEST);
+	if (SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_HIGHEST))
+		MessageBoxA(nullptr, "trigger works on high prio", "message", MB_OK | MB_ICONASTERISK);
 
 	TriggerBot bot(cfg);
 

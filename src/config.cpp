@@ -10,9 +10,9 @@
  *
  * {
  * 	"delay": 40,
- * 	"hotkey": 164,		// 0xA4
+ * 	"hotkey": 164,	    // 0xA4
  * 	"second_key": 75,   // 0x4B
- * 	"tolerance": 70,k
+ * 	"tolerance": 70,
  * 	"zone_x": 5,
  * 	"zone_y": 6
  * }
@@ -38,7 +38,7 @@ ConfigFileData* ReadConfigFile() noexcept
 
 		cfg->_second_key = global::json["second_key"];
 		cfg->_hotkey	 = global::json["hotkey"];
-		cfg->_delay		 = global::json["delay"];
+		cfg->_delay	 = global::json["delay"];
 		cfg->_zone_x	 = global::json["zone_x"];
 		cfg->_zone_y	 = global::json["zone_y"];
 		cfg->_tolerance	 = global::json["tolerance"];

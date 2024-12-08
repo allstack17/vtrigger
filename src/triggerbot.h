@@ -15,7 +15,7 @@ class TriggerBot
 
 private:
 	struct HdcInfo {
-		HDC	_hdc, _buff_hdc;
+		HDC _hdc, _buff_hdc;
 		HBITMAP _hmap;
 	} _hdc_info{};
 

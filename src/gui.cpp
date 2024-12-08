@@ -14,7 +14,7 @@
 #include "common.h"
 
 /* src: triggerbot.cpp */
-extern bool TRIGGER_MAIN_LOOP;
+extern volatile bool TRIGGER_MAIN_LOOP;
 
 namespace global {
 	HHOOK hook;
@@ -45,7 +45,7 @@ bool GuiMain(ConfigFileData& cfg)
 	ImGui::SetNextItemWidth(100);\
 	old = var;\
 	flag ? ImGui::InputScalar(a, ImGuiDataType_U8, &var, nullptr, nullptr, nullptr, ImGuiInputTextFlags_CharsDecimal)\
-		 : ImGui::InputInt(a, (int*)&var, 0, 0, ImGuiInputTextFlags_CharsDecimal);\
+		  : ImGui::InputInt(a, (int*)&var, 0, 0, ImGuiInputTextFlags_CharsDecimal);\
 	if (var < 0 || var > limit) var = old;\
 	else if (old != var) TRIGGER_MAIN_LOOP = false;\
 }

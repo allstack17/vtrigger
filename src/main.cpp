@@ -7,16 +7,15 @@
 #include "common.h"
 
 /* src: triggerbot.cpp */
-extern bool TRIGGER_MAIN_LOOP;
+extern volatile bool TRIGGER_MAIN_LOOP;
 
-/* changes the cfg file if a GUI inited */
-#define CONFIG_FILE_UPDATE {							\
-	SetConfigFileData("second_key", cfg._second_key);	\
-	SetConfigFileData("hotkey",		cfg._hotkey);		\
-	SetConfigFileData("delay",		cfg._delay);		\
-	SetConfigFileData("zone_x",		cfg._zone_x);		\
-	SetConfigFileData("zone_y",		cfg._zone_y);		\
-	SetConfigFileData("tolerance",  cfg._tolerance);	\
+#define CONFIG_FILE_UPDATE() {\
+	SetConfigFileData("second_key", cfg._second_key);\
+	SetConfigFileData("hotkey",     cfg._hotkey);\
+	SetConfigFileData("delay",      cfg._delay);\
+	SetConfigFileData("zone_x",     cfg._zone_x);\
+	SetConfigFileData("zone_y",     cfg._zone_y);\
+	SetConfigFileData("tolerance",  cfg._tolerance);\
 }
 
 static bool EarlyInit();
@@ -37,7 +36,7 @@ int main(int argc, char** argv)
 		std::cout << " => console\n\nrunning...\n";
 	}
 	else {
-		CONFIG_FILE_UPDATE;
+		CONFIG_FILE_UPDATE();
 		trigger.detach();
 		return 0;
 	}
@@ -50,13 +49,11 @@ int main(int argc, char** argv)
 
 bool EarlyInit() 
 {
-	/* pos/size */
 	MoveWindow(
 		GetConsoleWindow(),
 		500, 500, 500, 300,
 		true
 	);
-	/* title */
 	SetWindowTextA(GetConsoleWindow(), "Trigger");
 
 	return IsUserAnAdmin() ? true : false;
