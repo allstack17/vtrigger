@@ -1,8 +1,8 @@
 {
-    "delay": 150,
+    "delay": 100,
     "hotkey": 164,
     "second_key": 75,
     "tolerance": 70,
-    "zone_x": 6,
-    "zone_y": 8
+    "zone_x": 8,
+    "zone_y": 6
 }
