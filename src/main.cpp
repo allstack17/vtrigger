@@ -7,7 +7,7 @@
 #include "common.h"
 
 /* src: triggerbot.cpp */
-extern volatile bool TRIGGER_MAIN_LOOP;
+extern volatile std::atomic<bool> TRIGGER_MAIN_LOOP;
 
 #define CONFIG_FILE_UPDATE() {\
 	SetConfigFileData("second_key", cfg._second_key);\

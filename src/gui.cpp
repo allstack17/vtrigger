@@ -14,7 +14,7 @@
 #include "common.h"
 
 /* src: triggerbot.cpp */
-extern volatile bool TRIGGER_MAIN_LOOP;
+extern volatile std::atomic<bool> TRIGGER_MAIN_LOOP;
 
 namespace global {
 	HHOOK hook;
@@ -24,7 +24,6 @@ namespace global {
 static bool GLFWInit();
 static void Render(GLFWwindow*, ConfigFileData&);
 
-/* GuiMain */
 bool GuiMain(ConfigFileData& cfg) 
 {
 	if (!GLFWInit())
@@ -34,7 +33,6 @@ bool GuiMain(ConfigFileData& cfg)
 
 	Render(pwnd, cfg);
 
-	/* glfw cleanup */
 	glfwDestroyWindow(pwnd);
 	glfwTerminate();
 
@@ -52,7 +50,6 @@ bool GuiMain(ConfigFileData& cfg)
 
 void Render(GLFWwindow* pwnd, ConfigFileData& cfg) 
 {
-	/* imgui init */
 	IMGUI_CHECKVERSION();
 
 	ImGui::CreateContext();
@@ -100,7 +97,6 @@ void Render(GLFWwindow* pwnd, ConfigFileData& cfg)
 	{
 		glfwPollEvents();
 
-		/* framerate */
 		if (fps == 30) {
 			fps = 0;
 			if (global::render_window) {
@@ -109,16 +105,13 @@ void Render(GLFWwindow* pwnd, ConfigFileData& cfg)
 				ImGui_ImplGlfw_NewFrame();
 				ImGui::NewFrame();
 
-				/* imgui begin */
 				ImGui::Begin("Trigger", nullptr,
 					ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
 
-				/* set imgui window params once */
 				ImGui::SetWindowSize({ WINDOW_X_SIZE, WINDOW_Y_SIZE }, ImGuiCond_Once);
 				ImGui::SetWindowPos({ 0, 0 }, ImGuiCond_Once);
 				ImGui::SetWindowCollapsed(false, ImGuiCond_Once);
 
-				/* widgets */
 				ImGui::PushStyleColor(ImGuiCol_Text, { 0.7f, 0.9f, 1.0f, 0.5f });
 				ImGui::SetCursorPosX(WINDOW_X_SIZE / 2 - (ImGui::CalcTextSize("C O N F I G").x / 2));
 				ImGui::Text("C O N F I G");
@@ -136,13 +129,11 @@ void Render(GLFWwindow* pwnd, ConfigFileData& cfg)
 				ImGui::Text("'INSERT' show/hide :: 'END' start/stop");
 				ImGui::PopStyleColor();
 
-				/* exit button */
 				ImGui::PushStyleColor(ImGuiCol_Button, { 0.5f, 0.5f, 0.8f, 0.5f });
 				if (ImGui::Button("EXIT", { 100, 30 }))
 					glfwSetWindowShouldClose(pwnd, true);
 				ImGui::PopStyleColor();
 
-				/* start/stop button */
 				ImGui::SameLine();
 				ImGui::PushStyleColor(ImGuiCol_Button, TRIGGER_MAIN_LOOP ?
 					ImVec4(1.0f, 0.2f, 0.2f, 0.5f) : ImVec4{ 0.2f, 0.8f, 0.2f, 0.5f }
@@ -150,19 +141,15 @@ void Render(GLFWwindow* pwnd, ConfigFileData& cfg)
 				if (ImGui::Button(TRIGGER_MAIN_LOOP ? "STOP" : "START", { 220, 30 }))
 					TRIGGER_MAIN_LOOP = TRIGGER_MAIN_LOOP ? false : true;
 				ImGui::PopStyleColor();
-				/* widgets end */
 
-				/* imgui end */
 				ImGui::End();
 
-				/* render */
 				ImGui::Render();
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 				glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 				ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 				glfwSwapBuffers(pwnd);
 			}
-			/* ignore loop 'INSERT' */
 			else
 				glfwSetWindowSize(pwnd, 0, 0);
 
@@ -170,9 +157,7 @@ void Render(GLFWwindow* pwnd, ConfigFileData& cfg)
 		}
 		++fps;
 	}
-	/* loop end */
 
-	/* cleanup */
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
@@ -183,7 +168,6 @@ bool GLFWInit()
 	if (!glfwInit())
 		return false;
 
-	/* glfw window flags */
 	glfwWindowHint(GLFW_DECORATED,               0);
 	glfwWindowHint(GLFW_RESIZABLE,               0);
 	glfwWindowHint(GLFW_FLOATING,                1);

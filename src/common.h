@@ -2,6 +2,7 @@
 #define _COMMON_H_
 
 #include <thread>
+#include <atomic>
 #include <chrono>
 #include <windows.h>
 

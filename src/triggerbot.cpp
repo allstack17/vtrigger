@@ -20,15 +20,15 @@ namespace global {
 	const uint8_t r = 250, g = 100, b = 250;
 }
 
-volatile bool TRIGGER_MAIN_LOOP = false;
+volatile std::atomic<bool> TRIGGER_MAIN_LOOP = false;
 
 TriggerBot::TriggerBot(ConfigFileData& pcfg) :
 	_x(GetSystemMetrics(SM_CXSCREEN)), _y(GetSystemMetrics(SM_CYSCREEN))
 {
-	_pcfg		    = &pcfg;
-	_hdc_info._hdc	    = GetDC(nullptr);
-	_hdc_info._buff_hdc = CreateCompatibleDC(_hdc_info._hdc);
-	_hdc_info._hmap	    = CreateCompatibleBitmap(_hdc_info._hdc, _pcfg->_zone_x, _pcfg->_zone_y);
+	_pcfg 		     = &pcfg;
+	_hdc_info._hdc	     = GetDC(nullptr);
+	_hdc_info._buff_hdc  = CreateCompatibleDC(_hdc_info._hdc);
+	_hdc_info._hmap	     = CreateCompatibleBitmap(_hdc_info._hdc, _pcfg->_zone_x, _pcfg->_zone_y);
 
 	SelectObject(_hdc_info._buff_hdc, _hdc_info._hmap);
 }
@@ -42,10 +42,9 @@ TriggerBot::~TriggerBot()
 
 void TriggerBot::click(int button) 
 {
-	INPUT input	 = {};
-	input.type 	 = INPUT_KEYBOARD;
-	input.ki.wVk 	 = button;
-	input.ki.dwFlags = 0;
+	INPUT input  = {};
+	input.type   = INPUT_KEYBOARD;
+	input.ki.wVk = button;
 	SendInput(1, &input, sizeof(INPUT));
 
 	input.ki.dwFlags = KEYEVENTF_KEYUP;
